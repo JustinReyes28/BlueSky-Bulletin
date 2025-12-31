@@ -8,6 +8,9 @@ const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
 export const metadata: Metadata = {
   title: "BlueSky Bulletin | AI Weather Insights",
   description: "Intelligent weather summaries and personalized recommendations powerd by AI.",
+  icons: {
+    icon: '/favicon.png',
+  },
 };
 
 export default function RootLayout({
