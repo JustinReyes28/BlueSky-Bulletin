@@ -57,6 +57,16 @@ BlueSky Bulletin is a modern, AI-powered weather forecast platform that transfor
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## ✦ Screenshots
+
+Here are some screenshots of the BlueSky Bulletin application:
+
+<img src="./images/screenshot1.png" alt="Homepage View" width="800"/>
+
+<img src="./images/screenshot2.png" alt="Weather Map View" width="800"/>
+
+<img src="./images/screenshot3.png" alt="AI Recommendations" width="800"/>
+
 ## ✦📂 Project Structure
 
 - `/app`: Next.js App Router pages and API routes.
