@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@openrouter/sdk": "^0.3.11",
     "clsx": "^2.1.1",
     "leaflet": "^1.9.4",
     "lru-cache": "^11.2.4",

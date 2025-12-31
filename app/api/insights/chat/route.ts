@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { SYSTEM_PROMPT } from '@/lib/ai/prompt-templates';
+import { CHAT_SYSTEM_PROMPT } from '@/lib/ai/prompt-templates';
+import { OpenRouter } from "@openrouter/sdk";
 
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
-const MODEL = 'meta-llama/llama-3-8b-instruct:free';
+const MODEL = 'xiaomi/mimo-v2-flash:free';
+
+const openrouter = new OpenRouter({
+    apiKey: OPENROUTER_API_KEY || '',
+});
 
 // Basic in-memory rate limiting for the MVP
 const rateLimitMap = new Map<string, { count: number; lastReset: number }>();
@@ -47,32 +52,50 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Invalid messages' }, { status: 400 });
         }
 
-        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-                'Content-Type': 'application/json',
-                'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
-            },
-            body: JSON.stringify({
-                model: MODEL,
-                messages: [
-                    { role: 'system', content: SYSTEM_PROMPT + `\n\nContext for current chat:\nLocation: ${locationName}\nWeather Data: ${JSON.stringify(weatherContext)}` },
-                    ...messages,
-                ],
-            }),
+        // Optimize weatherContext to reduce token usage
+        // Truncate hourly data to only the next 24 hours (default is 168+ hours)
+        const optimizedWeatherContext = weatherContext ? {
+            ...weatherContext,
+            hourly: {
+                time: weatherContext.hourly.time.slice(0, 24),
+                temperature2m: weatherContext.hourly.temperature2m.slice(0, 24),
+                weatherCode: weatherContext.hourly.weatherCode.slice(0, 24),
+                uvIndex: weatherContext.hourly.uvIndex.slice(0, 24),
+            }
+        } : null;
+
+        const response = await openrouter.chat.send({
+            model: MODEL,
+            messages: [
+                { role: 'system', content: CHAT_SYSTEM_PROMPT + `\n\nContext for current chat:\nLocation: ${locationName}\nWeather Data: ${JSON.stringify(optimizedWeatherContext)}` } as any,
+                ...messages,
+            ],
+            maxTokens: 1000,
         });
 
-        if (!response.ok) {
-            throw new Error('AI service error');
+        // The SDK's chat.send without stream: true returns the full response
+        // Based on typical OpenRouter response structure
+        let content = response.choices?.[0]?.message?.content;
+
+        if (!content) {
+            console.error('Empty response from OpenRouter');
+            throw new Error('No content returned from AI service');
         }
 
-        const data = await response.json();
+        // Programmatic cleanup: Strip markdown formatting characters that AI might still include
+        // Removes ** and __
+        if (typeof content === 'string') {
+            content = content.replace(/\*\*|__/g, '');
+        }
+
         return NextResponse.json({
-            content: data.choices[0].message.content
+            content: content
         });
-    } catch (error) {
+    } catch (error: any) {
         console.error('AI Chat Error:', error);
-        return NextResponse.json({ error: 'Failed to process chat' }, { status: 500 });
+        return NextResponse.json({
+            error: 'Failed to process chat',
+            details: error.message
+        }, { status: 500 });
     }
 }

@@ -45,11 +45,16 @@ export default function InsightChat({ weatherContext, locationName }: InsightCha
                 }),
             });
 
-            if (!response.ok) throw new Error("Chat failed");
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                console.error('Chat API Error:', errorData);
+                throw new Error(errorData.details || "Chat failed");
+            }
 
             const data = await response.json();
             setMessages((prev) => [...prev, { role: "assistant", content: data.content }]);
-        } catch (error) {
+        } catch (error: any) {
+            console.error('InsightChat error:', error);
             setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, I couldn't process that. Please try again." }]);
         } finally {
             setLoading(false);

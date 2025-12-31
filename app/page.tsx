@@ -79,7 +79,7 @@ export default function Home() {
 
         {/* Footer */}
         <footer className="pt-12 border-t text-center text-[10px] uppercase tracking-[0.3em] font-bold text-muted/30 pb-8">
-          BlueSky Bulletin / Built with AI Weather Agent v0.0.39
+          BlueSky Bulletin / Built with AI Weather Agent.
         </footer>
       </div>
     </div>
