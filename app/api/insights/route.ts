@@ -36,6 +36,14 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
     }
 
+    if (!process.env.MISTRAL_API_KEY) {
+        console.error('MISTRAL_API_KEY is not set');
+        return NextResponse.json(
+            { error: 'AI service unavailable - missing API key' },
+            { status: 503 }
+        );
+    }
+
     try {
         const body = await req.json();
         const validation = insightRequestSchema.safeParse(body);
