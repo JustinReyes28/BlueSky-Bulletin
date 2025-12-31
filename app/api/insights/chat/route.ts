@@ -1,17 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { CHAT_SYSTEM_PROMPT } from '@/lib/ai/prompt-templates';
-import { OpenRouter } from "@openrouter/sdk";
+// import { OpenRouter } from "@openrouter/sdk";
 
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
-const MODEL = 'xiaomi/mimo-v2-flash:free';
-
-const openrouter = new OpenRouter({
-    apiKey: OPENROUTER_API_KEY || '',
-});
+// const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+// const MODEL = 'xiaomi/mimo-v2-flash:free';
+const MODEL = 'ministral-3b-2512';
+// const openrouter = new OpenRouter({
+//     apiKey: OPENROUTER_API_KEY || '',
 
 // Basic in-memory rate limiting for the MVP
 const rateLimitMap = new Map<string, { count: number; lastReset: number }>();
-const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const RATE_LIMIT_WINDOW = 24 * 60 * 60 * 1000; // 24 hours
 const MAX_REQUESTS = 5;
 
 function checkRateLimit(ip: string): boolean {
@@ -41,9 +40,9 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
     }
 
-    if (!OPENROUTER_API_KEY) {
-        return NextResponse.json({ error: 'AI service unavailable' }, { status: 503 });
-    }
+    // if (!OPENROUTER_API_KEY) {
+    //     return NextResponse.json({ error: 'AI service unavailable' }, { status: 503 });
+    // }
 
     try {
         const { messages, weatherContext, locationName } = await req.json();
@@ -64,21 +63,42 @@ export async function POST(req: NextRequest) {
             }
         } : null;
 
-        const response = await openrouter.chat.send({
-            model: MODEL,
-            messages: [
-                { role: 'system', content: CHAT_SYSTEM_PROMPT + `\n\nContext for current chat:\nLocation: ${locationName}\nWeather Data: ${JSON.stringify(optimizedWeatherContext)}` } as any,
-                ...messages,
-            ],
-            maxTokens: 1000,
+        // const response = await openrouter.chat.send({
+        //     model: MODEL,
+        //     messages: [
+        //         { role: 'system', content: CHAT_SYSTEM_PROMPT + `\n\nContext for current chat:\nLocation: ${locationName}\nWeather Data: ${JSON.stringify(optimizedWeatherContext)}` } as any,
+        //         ...messages,
+        //     ],
+        //     maxTokens: 1000,
+        // });
+
+        const response = await fetch('https://api.mistral.ai/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer MOO3O6hXJqgpEGT5SDmcBJblOLNCJvCw`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                model: MODEL,
+                messages: [
+                    { role: 'system', content: CHAT_SYSTEM_PROMPT + `\n\nContext for current chat:\nLocation: ${locationName}\nWeather Data: ${JSON.stringify(optimizedWeatherContext)}` } as any,
+                    ...messages,
+                ],
+                max_tokens: 1000,
+            }),
         });
 
-        // The SDK's chat.send without stream: true returns the full response
-        // Based on typical OpenRouter response structure
-        let content = response.choices?.[0]?.message?.content;
+        const data = await response.json();
+
+        if (!response.ok) {
+            console.error('AI service error:', data);
+            throw new Error(data.error || 'AI service failed');
+        }
+
+        let content = data.choices?.[0]?.message?.content;
 
         if (!content) {
-            console.error('Empty response from OpenRouter');
+            console.error('Empty response from AI service');
             throw new Error('No content returned from AI service');
         }
 
