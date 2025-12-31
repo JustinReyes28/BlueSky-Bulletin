@@ -13,6 +13,13 @@ BlueSky Bulletin is a modern, AI-powered weather forecast platform that transfor
 - **Premium UI/UX:** A sophisticated, responsive design built with Vanilla CSS and Tailwind CSS, following a "human-crafted" aesthetic.
 - **Stateless & Secure:** Privacy-first design with no persistent user storage for the MVP.
 
+## ✦ Screenshots
+
+Here are some screenshots of the BlueSky Bulletin application:
+
+<img src="./images/img1.png" alt="Homepage View" width="500"/> <img src="./images/img2.png" alt="Weather Map View" width="500"/>
+<img src="./images/img3.png" alt="AI Recommendations" width="800"/>
+
 ## ✦ Tech Stack
 
 - **Framework:** [Next.js 14 (App Router)](https://nextjs.org/)
@@ -57,15 +64,6 @@ BlueSky Bulletin is a modern, AI-powered weather forecast platform that transfor
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## ✦ Screenshots
-
-Here are some screenshots of the BlueSky Bulletin application:
-
-<img src="./images/screenshot1.png" alt="Homepage View" width="800"/>
-
-<img src="./images/screenshot2.png" alt="Weather Map View" width="800"/>
-
-<img src="./images/screenshot3.png" alt="AI Recommendations" width="800"/>
 
 ## ✦📂 Project Structure
 
