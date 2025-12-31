@@ -40,9 +40,13 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
     }
 
-    // if (!OPENROUTER_API_KEY) {
-    //     return NextResponse.json({ error: 'AI service unavailable' }, { status: 503 });
-    // }
+    if (!process.env.MISTRAL_API_KEY) {
+        console.error('MISTRAL_API_KEY is not set');
+        return NextResponse.json(
+            { error: 'AI service unavailable - missing API key' },
+            { status: 503 }
+        );
+    }
 
     try {
         const { messages, weatherContext, locationName } = await req.json();
@@ -63,19 +67,10 @@ export async function POST(req: NextRequest) {
             }
         } : null;
 
-        // const response = await openrouter.chat.send({
-        //     model: MODEL,
-        //     messages: [
-        //         { role: 'system', content: CHAT_SYSTEM_PROMPT + `\n\nContext for current chat:\nLocation: ${locationName}\nWeather Data: ${JSON.stringify(optimizedWeatherContext)}` } as any,
-        //         ...messages,
-        //     ],
-        //     maxTokens: 1000,
-        // });
-
         const response = await fetch('https://api.mistral.ai/v1/chat/completions', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer MOO3O6hXJqgpEGT5SDmcBJblOLNCJvCw`,
+                'Authorization': `Bearer ${process.env.MISTRAL_API_KEY}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
