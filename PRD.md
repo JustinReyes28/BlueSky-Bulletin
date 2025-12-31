@@ -34,7 +34,8 @@ Acceptance Criteria
 - Feature gracefully degrades to static summaries if AI service is unavailable
 - No personal data or location history is stored permanently (privacy-first)
 - Insights accurately reflect actual Open-Meteo data parameters (temperature, precipitation, wind, UV index)
-Technical Specifications
+
+# Technical Specifications
 Components/Modules Affected
 New Components:
 components/ai-insights/WeatherInsightPanel.tsx - Main display component
@@ -58,6 +59,70 @@ Integration Points
 Open-Meteo API: Primary weather data source (forecast, historical, air quality)
 Openrouter: Integration with LLM provider
 Leaflet.js: Map visualization synced with insight locations
+
+# BlueSky-Bulletin Weather Website - Design Brief
+Create a modern, sophisticated weather website UI that feels professionally designed with real intention behind every choice. Avoid AI-typical patterns like excessive gradients, over-animation, or generic layouts.
+Design Philosophy
+
+Clean & Purposeful: Every element serves a function
+Contemporary but Timeless: Modern without chasing fleeting trends
+Human-Crafted Feel: Deliberate asymmetry, thoughtful spacing, designer-quality typography
+Subtle Depth: Use shadows, borders, and layering instead of gradients
+
+Visual Direction
+Color Palette
+
+Use a restrained, sophisticated color scheme
+Solid colors with intentional contrast
+Consider: Deep navy/charcoal backgrounds with bright accent colors, or crisp white with bold color blocks
+Weather-appropriate colors that feel natural (sky blues, cloud grays, sun yellows) but not cliché
+
+Typography
+
+Pair a strong sans-serif (like Inter, Manrope, or DM Sans) with varied weights
+Create hierarchy through size, weight, and spacing - not color alone
+Large, confident temperature displays
+Readable forecast text with comfortable line-height
+
+Layout
+
+Break away from centered card layouts
+Try: Split-screen designs, sidebar navigation, asymmetric grids, magazine-style layouts
+Give content room to breathe with generous whitespace
+Consider a dashboard-style interface with modular sections
+
+UI Elements
+
+NO gradient backgrounds on cards or buttons
+Use flat colors, subtle borders (1-2px), and soft shadows for depth
+Icons: Simple line icons or filled icons - stay consistent
+Cards: Clean rectangles or subtle rounded corners (4-8px max)
+Data visualization: Simple, clear graphs without excessive decoration
+
+Key Features to Include
+
+Current weather with large temperature display
+Hourly forecast (scrollable horizontal strip)
+7-day forecast
+Key metrics: humidity, wind speed, UV index, precipitation
+Location search/selection
+Weather alerts (if applicable)
+
+What Makes It Feel Hand-Designed
+
+Intentional spacing: Not everything needs to be evenly spaced
+Varied card sizes: Different information gets different visual weight
+Microinteractions: Subtle hover states, smooth transitions (not bouncy)
+Real typography hierarchy: Not just different sizes, but different weights and styles
+Purposeful empty space: Don't fill every pixel
+
+Technical Notes
+
+Responsive design (mobile-first thinking)
+Fast loading, clean code
+Accessible contrast ratios
+Use actual weather data structure (even if placeholder data initially)
+
 
 # Constraints & Dependencies
 Technical Constraints

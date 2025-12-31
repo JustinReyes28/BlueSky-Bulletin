@@ -2,29 +2,29 @@
 
 ![BlueSky Bulletin Logo](https://via.placeholder.com/150) *// Add your actual logo here*
 
-## 🌤️ About the Project
+## ✦ About the Project
 
 **BlueSky Bulletin** is an intelligent weather forecast platform that transforms raw meteorological data into actionable insights. Using AI-powered analysis, we provide personalized weather summaries, activity recommendations, and proactive alerts to help you make informed daily decisions.
 
-## 🚀 Key Features
+## ✦ Key Features
 
-### ✨ AI-Powered Weather Insights
+### ✦ AI-Powered Weather Insights
 - **Natural Language Summaries**: Get human-readable weather narratives like "Perfect hiking conditions this morning, but bring a jacket for afternoon wind"
 - **Personalized Recommendations**: Activity suggestions based on current and forecasted weather patterns
 - **Proactive Alerts**: AI-generated notifications for significant weather changes that might impact your plans
 - **Comparative Analysis**: Contextual insights like "Warmer than yesterday" or "10% more rainfall than average"
 
-### 📍 Smart Location Handling
+### ✦ Smart Location Handling
 - Automatic geolocation detection (with user permission)
 - Manual location search with intelligent suggestions
 - Location-based weather insights and recommendations
 
-### 💬 Interactive Weather Assistant
+### ✦ Interactive Weather Assistant
 - Ask follow-up questions like "Best time for outdoor photography tomorrow?"
 - Get instant, context-aware responses
 - Provide feedback to improve future recommendations
 
-## 🛠️ Tech Stack
+## ✦ Tech Stack
 
 - **Frontend**: Next.js 14 (App Router), React 18, TypeScript 5.3+
 - **Styling**: Tailwind CSS 3.4
@@ -34,16 +34,16 @@
 - **Hosting**: Vercel Free Tier
 - **Caching**: Redis/resizable LRU caching
 
-## 📦 Installation & Setup
+## ✦ Installation & Setup
 
-### Prerequisites
+### ✦ Prerequisites
 - Node.js 18+
 - npm or yarn
 - Vercel account (for deployment)
 - Open-Meteo API access
 - Openrouter API key
 
-### Local Development
+### ✦ Local Development
 
 ```bash
 # Clone the repository
@@ -71,7 +71,7 @@ yarn dev
 # Open http://localhost:3000 in your browser
 ```
 
-### Environment Variables
+### ✦ Environment Variables
 
 Create a `.env.local` file with the following variables:
 
@@ -87,7 +87,7 @@ NEXT_PUBLIC_APP_NAME=BlueSky Bulletin
 NEXT_PUBLIC_APP_VERSION=0.0.39
 ```
 
-## 🎯 Usage
+## ✦ Usage
 
 ### Basic Usage
 1. Visit the BlueSky Bulletin website
@@ -102,7 +102,7 @@ NEXT_PUBLIC_APP_VERSION=0.0.39
 - **Activity Planning**: Get recommendations for outdoor activities, travel, and health precautions
 - **Custom Alerts**: Set up notifications for specific weather conditions
 
-## 📁 Project Structure
+## ✦ Project Structure
 
 ```
 bluesky-bulletin/
@@ -130,7 +130,7 @@ bluesky-bulletin/
 └── public/               # Static assets
 ```
 
-## 🔧 Configuration
+## ✦ Configuration
 
 ### API Configuration
 
@@ -154,7 +154,7 @@ export const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes in ms
 export const MAX_CACHE_SIZE = 1000; // items
 ```
 
-## 🚀 Deployment
+## ✦ Deployment
 
 ### Vercel Deployment
 
@@ -179,14 +179,14 @@ npm run build
 npm start
 ```
 
-## 📊 Performance Optimization
+## ✦ Performance Optimization
 
 - **Caching**: AI insights are cached for 30 minutes to reduce API costs
 - **Lazy Loading**: Components are loaded on-demand
 - **Efficient Data Fetching**: Optimized Open-Meteo API calls
 - **Streaming Responses**: For large AI-generated content
 
-## 🛡️ Security Features
+## ✦ Security Features
 
 - **Input Validation**: All user inputs are validated and sanitized
 - **Secure API Keys**: Stored in environment variables, never in code
@@ -194,7 +194,7 @@ npm start
 - **Content Security**: CSP headers and output escaping
 - **Privacy-First**: No permanent storage of personal data or location history
 
-## 🤝 Contributing
+## ✦ Contributing
 
 We welcome contributions! Please follow these steps:
 
@@ -204,7 +204,7 @@ We welcome contributions! Please follow these steps:
 4. Push to the branch: `git push origin feature/your-feature-name`
 5. Open a pull request
 
-### Development Guidelines
+### ✦ Development Guidelines
 
 - Follow TypeScript best practices
 - Write unit tests for new features
@@ -212,7 +212,7 @@ We welcome contributions! Please follow these steps:
 - Keep components small and focused
 - Use Tailwind CSS for styling
 
-## 📋 Roadmap
+## ✦ Roadmap
 
 ### Current Version (v0.0.39)
 - ✅ AI Weather Insights Agent
@@ -228,19 +228,18 @@ We welcome contributions! Please follow these steps:
 - 📊 Advanced weather analytics
 - 🤖 Enhanced AI personalization
 
-## 📝 License
+## ✦ License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 📞 Support
+## ✦ Support
 
 For questions, issues, or feature requests:
 
 - Open an issue on GitHub
-- Contact us at support@bluesky-bulletin.com
-- Join our community Discord
+- Contact us at justinreyes28.work@gmail.com
 
-## 🙏 Acknowledgments
+## ✦ Acknowledgments
 
 - Open-Meteo for providing excellent weather data
 - Vercel for hosting infrastructure
