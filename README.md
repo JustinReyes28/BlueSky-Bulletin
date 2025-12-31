@@ -1,251 +1,70 @@
-# BlueSky Bulletin - AI Weather Insights Agent
+# BlueSky Bulletin | AI Weather Insights
 
-![BlueSky Bulletin Logo](https://via.placeholder.com/150) *// Add your actual logo here*
-
-## ✦ About the Project
-
-**BlueSky Bulletin** is an intelligent weather forecast platform that transforms raw meteorological data into actionable insights. Using AI-powered analysis, we provide personalized weather summaries, activity recommendations, and proactive alerts to help you make informed daily decisions.
+BlueSky Bulletin is a modern, AI-powered weather forecast platform that transforms raw meteorological data into actionable, human-readable insights. Leveraging the performance of Next.js 14 and the intelligence of Large Language Models via OpenRouter, it provides users with personalized weather narratives and recommendations.
 
 ## ✦ Key Features
 
-### ✦ AI-Powered Weather Insights
-- **Natural Language Summaries**: Get human-readable weather narratives like "Perfect hiking conditions this morning, but bring a jacket for afternoon wind"
-- **Personalized Recommendations**: Activity suggestions based on current and forecasted weather patterns
-- **Proactive Alerts**: AI-generated notifications for significant weather changes that might impact your plans
-- **Comparative Analysis**: Contextual insights like "Warmer than yesterday" or "10% more rainfall than average"
-
-### ✦ Smart Location Handling
-- Automatic geolocation detection (with user permission)
-- Manual location search with intelligent suggestions
-- Location-based weather insights and recommendations
-
-### ✦ Interactive Weather Assistant
-- Ask follow-up questions like "Best time for outdoor photography tomorrow?"
-- Get instant, context-aware responses
-- Provide feedback to improve future recommendations
+- **AI Weather Insights:**
+  - **Daily Briefing:** Concise, 2-3 sentence summaries of the day's weather.
+  - **Personalized Recommendations:** Activity suggestions based on current and forecast conditions.
+  - **Proactive Alerts:** AI-generated notifications for significant weather changes.
+- **Interactive Weather Map:** Real-time data visualization using Leaflet.js.
+- **Dynamic Search & Geolocation:** Automatic location detection and global search capabilities.
+- **Premium UI/UX:** A sophisticated, responsive design built with Vanilla CSS and Tailwind CSS, following a "human-crafted" aesthetic.
+- **Stateless & Secure:** Privacy-first design with no persistent user storage for the MVP.
 
 ## ✦ Tech Stack
 
-- **Frontend**: Next.js 14 (App Router), React 18, TypeScript 5.3+
-- **Styling**: Tailwind CSS 3.4
-- **Mapping**: Leaflet.js 1.9
-- **Weather Data**: Open-Meteo API
-- **AI Processing**: Openrouter LLM integration
-- **Hosting**: Vercel Free Tier
-- **Caching**: Redis/resizable LRU caching
+- **Framework:** [Next.js 14 (App Router)](https://nextjs.org/)
+- **UI Library:** [React 18](https://reactjs.org/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Mapping:** [Leaflet.js](https://leafletjs.com/) & [React-Leaflet](https://react-leaflet.js.org/)
+- **Weather Data:** [Open-Meteo API](https://open-meteo.com/)
+- **AI Intelligence:** [OpenRouter SDK](https://openrouter.ai/)
+- **Data Validation:** [Zod](https://zod.dev/) & [Validator.js](https://github.com/validatorjs/validator.js)
+- **Deployment:** [Vercel](https://vercel.com/)
 
-## ✦ Installation & Setup
+## ✦ Getting Started
 
-### ✦ Prerequisites
-- Node.js 18+
-- npm or yarn
-- Vercel account (for deployment)
-- Open-Meteo API access
-- Openrouter API key
+### Prerequisites
 
-### ✦ Local Development
+- Node.js 18.17 or later
+- An OpenRouter API Key
 
-```bash
-# Clone the repository
-git clone https://github.com/your-username/bluesky-bulletin.git
-cd bluesky-bulletin
+### Installation
 
-# Install dependencies
-npm install
-# or
-yarn install
-
-# Set up environment variables
-# Create a .env.local file in the root directory
-cp .env.example .env.local
-
-# Add your API keys to .env.local
-NEXT_PUBLIC_OPEN_METEO_API_KEY=your_open_meteo_key
-OPENROUTER_API_KEY=your_openrouter_key
-
-# Run the development server
-npm run dev
-# or
-yarn dev
-
-# Open http://localhost:3000 in your browser
-```
-
-### ✦ Environment Variables
-
-Create a `.env.local` file with the following variables:
-
-```env
-# Open-Meteo API
-NEXT_PUBLIC_OPEN_METEO_API_KEY=your_api_key_here
-
-# Openrouter AI API
-OPENROUTER_API_KEY=your_api_key_here
-
-# Application settings
-NEXT_PUBLIC_APP_NAME=BlueSky Bulletin
-NEXT_PUBLIC_APP_VERSION=0.0.39
-```
-
-## ✦ Usage
-
-### Basic Usage
-1. Visit the BlueSky Bulletin website
-2. Allow location access or search for your desired location
-3. View AI-generated weather insights and recommendations
-4. Ask specific questions about weather conditions
-5. Provide feedback to improve future recommendations
-
-### Advanced Features
-- **7-Day Forecast Analysis**: Get insights for the entire week
-- **Historical Comparisons**: See how current weather compares to historical norms
-- **Activity Planning**: Get recommendations for outdoor activities, travel, and health precautions
-- **Custom Alerts**: Set up notifications for specific weather conditions
-
-## ✦ Project Structure
-
-```
-bluesky-bulletin/
-├── app/                  # Next.js app router pages
-│   ├── api/              # API routes
-│   │   └── insights/     # AI insights endpoints
-│   └── page.tsx          # Main dashboard
-├── components/           # React components
-│   ├── ai-insights/      # AI insights components
-│   │   ├── WeatherInsightPanel.tsx
-│   │   ├── DailyBriefingCard.tsx
-│   │   └── InsightChat.tsx
-│   └── map/              # Map components
-│       └── WeatherMap.tsx
-├── lib/                  # Core logic and utilities
-│   ├── ai/               # AI processing
-│   │   ├── weather-insight-agent.ts
-│   │   └── prompt-templates.ts
-│   ├── cache/            # Caching layer
-│   │   └── insight-cache.ts
-│   └── weather/          # Weather data processing
-│       └── open-meteo.ts
-├── hooks/                # Custom React hooks
-│   └── useWeatherInsights.ts
-└── public/               # Static assets
-```
-
-## ✦ Configuration
-
-### API Configuration
-
-Configure API endpoints in `lib/weather/open-meteo.ts`:
-
-```typescript
-// Example configuration
-const OPEN_METEO_BASE_URL = 'https://api.open-meteo.com/v1';
-const OPENROUTER_BASE_URL = 'https://openrouter.ai/api/v1';
-```
-
-### Caching Settings
-
-Adjust cache settings in `lib/cache/insight-cache.ts`:
-
-```typescript
-// Cache duration (30 minutes by default)
-export const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes in ms
-
-// Maximum cache size
-export const MAX_CACHE_SIZE = 1000; // items
-```
-
-## ✦ Deployment
-
-### Vercel Deployment
-
-1. Install Vercel CLI:
+1. **Clone the repository:**
    ```bash
-   npm install -g vercel
+   git clone https://github.com/your-username/bluesky-bulletin.git
+   cd bluesky-bulletin
    ```
 
-2. Deploy to Vercel:
+2. **Install dependencies:**
    ```bash
-   vercel
+   npm install
    ```
 
-3. Set environment variables in Vercel dashboard:
-   - `OPEN_METEO_API_KEY`
-   - `OPENROUTER_API_KEY`
+3. **Configure Environment Variables:**
+   Create a `.env.local` file in the root directory and add your keys:
+   ```env
+   OPENROUTER_API_KEY=your_api_key_here
+   ```
 
-### Production Build
+4. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
 
-```bash
-npm run build
-npm start
-```
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## ✦ Performance Optimization
+## ✦📂 Project Structure
 
-- **Caching**: AI insights are cached for 30 minutes to reduce API costs
-- **Lazy Loading**: Components are loaded on-demand
-- **Efficient Data Fetching**: Optimized Open-Meteo API calls
-- **Streaming Responses**: For large AI-generated content
+- `/app`: Next.js App Router pages and API routes.
+- `/components`: Reusable UI components (AI panels, maps, search).
+- `/lib`: Core logic including AI orchestration, weather fetching, and utilities.
+- `/hooks`: Custom React hooks for data fetching and state management.
+- `/public`: Static assets (images, fonts).
 
-## ✦ Security Features
+## ✦📄 License
 
-- **Input Validation**: All user inputs are validated and sanitized
-- **Secure API Keys**: Stored in environment variables, never in code
-- **Rate Limiting**: 30 requests per minute per IP
-- **Content Security**: CSP headers and output escaping
-- **Privacy-First**: No permanent storage of personal data or location history
-
-## ✦ Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/your-feature-name`
-3. Commit your changes: `git commit -m 'Add some feature'`
-4. Push to the branch: `git push origin feature/your-feature-name`
-5. Open a pull request
-
-### ✦ Development Guidelines
-
-- Follow TypeScript best practices
-- Write unit tests for new features
-- Document your code with JSDoc comments
-- Keep components small and focused
-- Use Tailwind CSS for styling
-
-## ✦ Roadmap
-
-### Current Version (v0.0.39)
-- ✅ AI Weather Insights Agent
-- ✅ Interactive chat interface
-- ✅ Location-based recommendations
-- ✅ 7-day forecast analysis
-- ✅ Soft delete and trash management system
-
-### Upcoming Features
-- 📅 User accounts and preferences
-- 🔔 Custom alert notifications
-- 🌍 Multi-language support
-- 📊 Advanced weather analytics
-- 🤖 Enhanced AI personalization
-
-## ✦ License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## ✦ Support
-
-For questions, issues, or feature requests:
-
-- Open an issue on GitHub
-- Contact us at justinreyes28.work@gmail.com
-
-## ✦ Acknowledgments
-
-- Open-Meteo for providing excellent weather data
-- Vercel for hosting infrastructure
-- The open-source community for amazing tools and libraries
-
----
-
-**BlueSky Bulletin** - Making weather intelligence accessible to everyone! 🌤️🌧️☀️
-"# BlueSky-Bulletin" 
+This project is private and intended for demonstration purposes.

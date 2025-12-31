@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Colors - Sophisticated & Restrained (RGB format for Tailwind opacity support) */
+  --background: 253 253 253;
+  --foreground: 12 14 18;
+  --card: 255 255 255;
+  --card-foreground: 12 14 18;
+  --muted: 100 116 139;
+  --muted-foreground: 148 163 184;
+  --accent: 37 99 235;
+  --accent-foreground: 255 255 255;
+  --border: 226 232 240;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui;
+  --font-display: var(--font-manrope), ui-sans-serif, system-ui;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: 2 6 23;
+    --foreground: 248 250 252;
+    --card: 15 23 42;
+    --card-foreground: 248 250 252;
+    --muted: 148 163 184;
+    --muted-foreground: 100 116 139;
+    --accent: 56 189 248;
+    --accent-foreground: 2 6 23;
+    --border: 30 41 59;
+  }
+}
+
+body {
+  color: rgb(var(--foreground));
+  background: rgb(var(--background));
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+}
+
+@layer base {
+  * {
+    border-color: rgb(var(--border));
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .glass-card {
+    background-color: rgb(var(--card) / 0.5);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgb(var(--border));
+    @apply shadow-sm hover:shadow-md transition-all duration-300;
+  }
+
+  .asymmetric-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2rem;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--muted) / 0.2);
+  border-radius: 9999px;
+  transition: background 0.2s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--muted) / 0.4);
+}
