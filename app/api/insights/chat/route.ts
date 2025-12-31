@@ -10,7 +10,7 @@ const MODEL = 'ministral-3b-2512';
 
 // Basic in-memory rate limiting for the MVP
 const rateLimitMap = new Map<string, { count: number; lastReset: number }>();
-const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const RATE_LIMIT_WINDOW = 24 * 60 * 60 * 1000; // 24 hours
 const MAX_REQUESTS = 5;
 
 function checkRateLimit(ip: string): boolean {
