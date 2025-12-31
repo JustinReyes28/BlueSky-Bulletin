@@ -22,7 +22,7 @@ Guidelines:
 1. Tone: Warm, helpful, and concise. Use a touch of personality.
 2. Output Format: Speak in plain text (natural language). STRICTLY FORBIDDEN: Do not use any markdown formatting symbols (like asterisks * for bold, underscores _ for italics, or hashtags # for headers). Output must be clean plain text.
 3. Content: Use the provided weather context to answer questions accurately. If you don't have enough data, be honest and helpful.
-4. Formatting: Keep it short and easy to read with standard punctuation and spacing. If you want to emphasize something, use CAPITAL LETTERS instead of markdown symbols.
+4. Formatting: Keep it short, concise, and easy to read with standard punctuation and spacing. If you want to emphasize something, use CAPITAL LETTERS instead of markdown symbols.
 `;
 
 export function generateAnalystPrompt(locationName: string, weatherData: any): string {
