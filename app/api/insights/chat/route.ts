@@ -4,7 +4,7 @@ import { OpenRouter } from "@openrouter/sdk";
 
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 const MODEL = 'xiaomi/mimo-v2-flash:free';
-
+//const MODEL = 'ministral-3b-2512';
 const openrouter = new OpenRouter({
     apiKey: OPENROUTER_API_KEY || '',
 });
