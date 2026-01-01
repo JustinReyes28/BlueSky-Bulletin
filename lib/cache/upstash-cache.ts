@@ -21,11 +21,11 @@ function getRedis() {
 }
 
 /**
- * Rounds a coordinate to 2 decimal places for better cache hit rates (~1km precision)
+ * Rounds a coordinate to 1 decimal place for better cache hit rates (~10km precision)
  * Hey there! This helps us find cached weather data faster for nearby locations.
  */
 export function roundCoordinate(coord: number): string {
-    return coord.toFixed(2);
+    return coord.toFixed(1);
 }
 
 export async function getCachedData<T>(key: string): Promise<T | null> {
