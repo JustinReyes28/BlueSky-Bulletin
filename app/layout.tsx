@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "BlueSky | Your Friendly Weather Guide",
   description: "Get easy-to-understand weather updates and cool recommendations tailored just for you.",
   icons: {
-    icon: './images/favicon.png',
+    icon: '/images/favicon.png',
   },
 };
 
