@@ -1,20 +1,24 @@
 import { Redis } from '@upstash/redis';
 
-// Replace the current Redis initialization with this:
-const kvRestApiUrl = process.env.KV_REST_API_URL;
-const kvRestApiToken = process.env.KV_REST_API_TOKEN;
+let redis: Redis | null = null;
 
-if (!kvRestApiUrl || !kvRestApiToken) {
-    const missingVars = [];
-    if (!kvRestApiUrl) missingVars.push('KV_REST_API_URL');
-    if (!kvRestApiToken) missingVars.push('KV_REST_API_TOKEN');
-    throw new Error(`Missing required environment variables: ${missingVars.join(', ')}. Please configure Upstash Redis.`);
+function getRedis() {
+    if (!redis) {
+        const kvRestApiUrl = process.env.KV_REST_API_URL;
+        const kvRestApiToken = process.env.KV_REST_API_TOKEN;
+
+        if (!kvRestApiUrl || !kvRestApiToken) {
+            console.warn('Missing KV_REST_API_URL or KV_REST_API_TOKEN. Caching disabled.');
+            return null;
+        }
+
+        redis = new Redis({
+            url: kvRestApiUrl,
+            token: kvRestApiToken,
+        });
+    }
+    return redis;
 }
-
-const redis = new Redis({
-    url: kvRestApiUrl,
-    token: kvRestApiToken,
-});
 
 /**
  * Rounds a coordinate to 2 decimal places for better cache hit rates (~1km precision)
@@ -26,8 +30,11 @@ export function roundCoordinate(coord: number): string {
 
 export async function getCachedData<T>(key: string): Promise<T | null> {
     try {
+        const client = getRedis();
+        if (!client) return null;
+
         // Let's see if we already have this info saved
-        return await redis.get<T>(key);
+        return await client.get<T>(key);
     } catch (error) {
         console.error('Oops! Couldn\'t check the cache:', error);
         return null;
@@ -36,8 +43,11 @@ export async function getCachedData<T>(key: string): Promise<T | null> {
 
 export async function setCachedData<T>(key: string, value: T, ttlSeconds: number): Promise<void> {
     try {
+        const client = getRedis();
+        if (!client) return;
+
         // Let's save this info for later
-        await redis.set(key, value, { ex: ttlSeconds });
+        await client.set(key, value, { ex: ttlSeconds });
     } catch (error) {
         console.error('Hmm, couldn\'t save to cache:', error);
     }
