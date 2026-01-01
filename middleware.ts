@@ -6,8 +6,8 @@ export function middleware(request: NextRequest) {
 
     const response = NextResponse.next();
 
-    // Override x-robots-tag to allow indexing
-    response.headers.set('x-robots-tag', 'index, follow');
+    // Override X-Robots-Tag to allow indexing
+    response.headers.set('X-Robots-Tag', 'all');
 
     const csp = response.headers.get('Content-Security-Policy')?.replace(/'nonce-{nonce}'/g, `'nonce-${nonce}'`) || '';
     response.headers.set('Content-Security-Policy', csp);
