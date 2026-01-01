@@ -2,7 +2,7 @@
 
 BlueSky is your go-to app for easy-to-understand weather updates and personalized recommendations. We've combined the power of Next.js with smart AI to give you weather info that actually makes sense.
 
-## ✨ What's Cool About BlueSky
+## ✦ What's Cool About BlueSky
 
 - **Weather Made Simple:**
   - **Quick Updates:** Get the day's weather in just a couple of sentences.
@@ -31,7 +31,7 @@ BlueSky uses some clever caching tricks to make sure you get info fast:
 
 Check out [Caching.md](Caching.md) for all the techy details.
 
-## 🛠️ What We're Built With
+## ✦ What We're Built With
 
 - **Framework:** [Next.js 14](https://nextjs.org/) (the new hotness)
 - **UI:** [React 18](https://reactjs.org/) (because it's awesome)
@@ -43,7 +43,7 @@ Check out [Caching.md](Caching.md) for all the techy details.
 - **Caching:** [Upstash Redis](https://upstash.com/) (makes everything faster)
 - **Hosting:** [Vercel](https://vercel.com/) (where the magic happens)
 
-## 🚀 Getting Started
+## ✦ Getting Started
 
 ### What You'll Need
 
@@ -80,7 +80,7 @@ Check out [Caching.md](Caching.md) for all the techy details.
 Now open [http://localhost:3000](http://localhost:3000) in your browser and check it out!
 
 
-## 🗂️ How It's Organized
+## ✦ How It's Organized
 
 - `/app`: All the Next.js pages and API stuff
 - `/components`: Reusable bits of the interface
@@ -88,6 +88,6 @@ Now open [http://localhost:3000](http://localhost:3000) in your browser and chec
 - `/hooks`: Handy React helpers
 - `/public`: Images and other static stuff
 
-## 📜 The Legal Stuff
+## ✦ The Legal Stuff
 
 This is a private project just for showing off what we can do.
