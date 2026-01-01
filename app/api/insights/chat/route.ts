@@ -6,30 +6,29 @@ import { checkRateLimit } from '@/lib/rate-limit';
 const MODEL = 'ministral-3b-2512';
 
 export async function POST(req: NextRequest) {
+    const { messages, weatherContext, locationName } = await req.json();
+
+    if (!messages || !Array.isArray(messages)) {
+        return NextResponse.json({ error: 'Hey, we need some messages to chat about!' }, { status: 400 });
+    }
+
     const ip = req.ip || 'anonymous';
     const ratelimit = await checkRateLimit(ip);
 
     if (!ratelimit.success) {
-        return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
+        return NextResponse.json({ error: 'Whoa there! Too many requests. Take a breather and try again in a bit.' }, { status: 429 });
     }
 
     if (!process.env.MISTRAL_API_KEY) {
         console.error('MISTRAL_API_KEY is not set');
         return NextResponse.json(
-            { error: 'AI service unavailable - missing API key' },
+            { error: 'Our weather chatbot is taking a quick nap. Try again soon!' },
             { status: 503 }
         );
     }
 
     try {
-        const { messages, weatherContext, locationName } = await req.json();
-
-        if (!messages || !Array.isArray(messages)) {
-            return NextResponse.json({ error: 'Invalid messages' }, { status: 400 });
-        }
-
-        // Optimize weatherContext to reduce token usage
-        // Truncate hourly data to only the next 24 hours (default is 168+ hours)
+        // Let's make the weather data smaller so our chatbot can focus
         const optimizedWeatherContext = weatherContext ? {
             ...weatherContext,
             hourly: {
@@ -40,6 +39,7 @@ export async function POST(req: NextRequest) {
             }
         } : null;
 
+        // Time to chat with our weather expert!
         const response = await fetch('https://api.mistral.ai/v1/chat/completions', {
             method: 'POST',
             headers: {
@@ -60,18 +60,17 @@ export async function POST(req: NextRequest) {
 
         if (!response.ok) {
             console.error('AI service error:', data);
-            throw new Error(data.error || 'AI service failed');
+            throw new Error(data.error || 'Our weather chatbot is having a bad day');
         }
 
         let content = data.choices?.[0]?.message?.content;
 
         if (!content) {
             console.error('Empty response from AI service');
-            throw new Error('No content returned from AI service');
+            throw new Error('Our chatbot didn\'t say anything! How rude.');
         }
 
-        // Programmatic cleanup: Strip markdown formatting characters that AI might still include
-        // Removes ** and __
+        // Let's clean up any weird formatting
         if (typeof content === 'string') {
             content = content.replace(/\*\*|__/g, '');
         }
@@ -82,7 +81,7 @@ export async function POST(req: NextRequest) {
     } catch (error: any) {
         console.error('AI Chat Error:', error);
         return NextResponse.json({
-            error: 'Failed to process chat',
+            error: 'Oops! Our chatbot stumbled. Maybe try asking something else?',
             details: error.message
         }, { status: 500 });
     }

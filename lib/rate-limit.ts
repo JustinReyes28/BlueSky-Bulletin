@@ -1,12 +1,23 @@
 import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
 
+// Replace the current Redis initialization with this:
+const kvRestApiUrl = process.env.UPSTASH_REDIS_REST_URL;
+const kvRestApiToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+
+if (!kvRestApiUrl || !kvRestApiToken) {
+    const missingVars = [];
+    if (!kvRestApiUrl) missingVars.push('UPSTASH_REDIS_REST_URL');
+    if (!kvRestApiToken) missingVars.push('UPSTASH_REDIS_REST_TOKEN');
+    throw new Error(`Missing required environment variables: ${missingVars.join(', ')}. Please set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN for rate limiting.`);
+}
+
 const redis = new Redis({
-    url: process.env.KV_REST_API_URL!,
-    token: process.env.KV_REST_API_TOKEN!,
+    url: kvRestApiUrl,
+    token: kvRestApiToken,
 });
 
-// Create a new ratelimiter, that allows 30 requests per 1 minute
+// Let's set up some friendly limits - 30 requests per minute sounds fair!
 export const ratelimit = new Ratelimit({
     redis: redis,
     limiter: Ratelimit.slidingWindow(30, '1 m'),
@@ -15,6 +26,7 @@ export const ratelimit = new Ratelimit({
 });
 
 export async function checkRateLimit(ip: string): Promise<{ success: boolean; limit: number; remaining: number; reset: number }> {
+    // Let's see if this user is playing nice with our rate limits
     const { success, limit, remaining, reset } = await ratelimit.limit(ip);
     return { success, limit, remaining, reset };
 }
