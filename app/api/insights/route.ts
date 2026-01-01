@@ -42,8 +42,8 @@ export async function POST(req: NextRequest) {
         const weatherData = await fetchWeather(lat, lon);
         const insights = await generateWeatherInsights(locationName, weatherData);
 
-        // Let's save this for next time (for 2 hours)
-        await setCachedData(cacheKey, insights, 7200);
+        // Let's save this for next time (for 8 hours)
+        await setCachedData(cacheKey, insights, 8 * 60 * 60);
 
         return NextResponse.json(insights);
     } catch (error) {
