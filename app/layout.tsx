@@ -12,6 +12,10 @@ export const metadata: Metadata = {
   icons: {
     icon: '/images/favicon.png',
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 function generateNonce() {
@@ -28,6 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta name="robots" content="index, follow" />
         <script
           nonce={nonce}
           dangerouslySetInnerHTML={{
