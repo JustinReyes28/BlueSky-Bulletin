@@ -12,6 +12,18 @@ BlueSky Bulletin is a modern, AI-powered weather forecast platform that transfor
 - **Dynamic Search & Geolocation:** Automatic location detection and global search capabilities.
 - **Premium UI/UX:** A sophisticated, responsive design built with Vanilla CSS and Tailwind CSS, following a "human-crafted" aesthetic.
 - **Stateless & Secure:** Privacy-first design with no persistent user storage for the MVP.
+- **Performance Optimized:** Upstash Redis caching for faster response times and reduced API costs.
+
+
+## ✦ Caching Strategy
+
+BlueSky Bulletin implements a comprehensive caching strategy using Upstash Redis to optimize performance and reduce API costs:
+
+- **Weather Data:** Cached for 30 minutes with coordinate-based keys
+- **AI Insights:** Cached for 2 hours with date-based keys to prevent redundant generation
+- **Rate Limiting:** Implemented using Upstash Redis for production-ready sliding window algorithm
+
+For detailed implementation information, see [Caching.md](Caching.md).
 
 ## ✦ Tech Stack
 
@@ -22,6 +34,7 @@ BlueSky Bulletin is a modern, AI-powered weather forecast platform that transfor
 - **Weather Data:** [Open-Meteo API](https://open-meteo.com/)
 - **AI Intelligence:** [OpenRouter SDK](https://openrouter.ai/)
 - **Data Validation:** [Zod](https://zod.dev/) & [Validator.js](https://github.com/validatorjs/validator.js)
+- **Caching:** [Upstash Redis](https://upstash.com/)
 - **Deployment:** [Vercel](https://vercel.com/)
 
 ## ✦ Getting Started
@@ -29,7 +42,8 @@ BlueSky Bulletin is a modern, AI-powered weather forecast platform that transfor
 ### Prerequisites
 
 - Node.js 18.17 or later
-- An OpenRouter API Key
+- An OpenRouter API Key or Mistral API Key
+- An Upstash Redis database (free tier available)
 
 ### Installation
 
@@ -48,6 +62,8 @@ BlueSky Bulletin is a modern, AI-powered weather forecast platform that transfor
    Create a `.env.local` file in the root directory and add your keys:
    ```env
    OPENROUTER_API_KEY=your_api_key_here
+   UPSTASH_REDIS_REST_URL=your_upstash_redis_rest_url
+   UPSTASH_REDIS_REST_TOKEN=your_upstash_redis_rest_token
    ```
 
 4. **Run the development server:**

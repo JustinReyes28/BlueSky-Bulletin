@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "BlueSky Bulletin | AI Weather Insights",
   description: "Intelligent weather summaries and personalized recommendations powerd by AI.",
   icons: {
-    icon: '/favicon.png',
+    icon: '/images/favicon.png',
   },
 };
 

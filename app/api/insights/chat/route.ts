@@ -1,42 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { CHAT_SYSTEM_PROMPT } from '@/lib/ai/prompt-templates';
-// import { OpenRouter } from "@openrouter/sdk";
+import { checkRateLimit } from '@/lib/rate-limit';
 
-// const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 // const MODEL = 'xiaomi/mimo-v2-flash:free';
 const MODEL = 'ministral-3b-2512';
-// const openrouter = new OpenRouter({
-//     apiKey: OPENROUTER_API_KEY || '',
-
-// Basic in-memory rate limiting for the MVP
-const rateLimitMap = new Map<string, { count: number; lastReset: number }>();
-const RATE_LIMIT_WINDOW = 24 * 60 * 60 * 1000; // 24 hours
-const MAX_REQUESTS = 5;
-
-function checkRateLimit(ip: string): boolean {
-    const now = Date.now();
-    const userData = rateLimitMap.get(ip) || { count: 0, lastReset: now };
-
-    if (now - userData.lastReset > RATE_LIMIT_WINDOW) {
-        userData.count = 1;
-        userData.lastReset = now;
-        rateLimitMap.set(ip, userData);
-        return true;
-    }
-
-    if (userData.count >= MAX_REQUESTS) {
-        return false;
-    }
-
-    userData.count++;
-    rateLimitMap.set(ip, userData);
-    return true;
-}
 
 export async function POST(req: NextRequest) {
     const ip = req.ip || 'anonymous';
+    const ratelimit = await checkRateLimit(ip);
 
-    if (!checkRateLimit(ip)) {
+    if (!ratelimit.success) {
         return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
     }
 

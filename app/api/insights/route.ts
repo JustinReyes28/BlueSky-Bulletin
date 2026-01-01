@@ -1,38 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateWeatherInsights } from '@/lib/ai/weather-insight-agent';
 import { fetchWeather } from '@/lib/weather/open-meteo';
-import { getCachedInsight, setCachedInsight } from '@/lib/cache/insight-cache';
+import { getCachedData, setCachedData, generateInsightKey } from '@/lib/cache/upstash-cache';
+import { checkRateLimit } from '@/lib/rate-limit';
 import { insightRequestSchema } from '@/lib/validation';
-
-// Basic in-memory rate limiting for the MVP
-const rateLimitMap = new Map<string, { count: number; lastReset: number }>();
-const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
-const MAX_REQUESTS = 5;
-
-function checkRateLimit(ip: string): boolean {
-    const now = Date.now();
-    const userData = rateLimitMap.get(ip) || { count: 0, lastReset: now };
-
-    if (now - userData.lastReset > RATE_LIMIT_WINDOW) {
-        userData.count = 1;
-        userData.lastReset = now;
-        rateLimitMap.set(ip, userData);
-        return true;
-    }
-
-    if (userData.count >= MAX_REQUESTS) {
-        return false;
-    }
-
-    userData.count++;
-    rateLimitMap.set(ip, userData);
-    return true;
-}
 
 export async function POST(req: NextRequest) {
     const ip = req.ip || 'anonymous';
+    const ratelimit = await checkRateLimit(ip);
 
-    if (!checkRateLimit(ip)) {
+    if (!ratelimit.success) {
         return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
     }
 
@@ -53,9 +30,10 @@ export async function POST(req: NextRequest) {
         }
 
         const { lat, lon, locationName } = validation.data;
+        const cacheKey = generateInsightKey(lat, lon);
 
         // Check cache first
-        const cached = getCachedInsight(lat, lon);
+        const cached = await getCachedData(cacheKey);
         if (cached) {
             return NextResponse.json(cached);
         }
@@ -64,8 +42,8 @@ export async function POST(req: NextRequest) {
         const weatherData = await fetchWeather(lat, lon);
         const insights = await generateWeatherInsights(locationName, weatherData);
 
-        // Cache the result
-        setCachedInsight(lat, lon, insights);
+        // Cache for 2 hours (7200 seconds)
+        await setCachedData(cacheKey, insights, 7200);
 
         return NextResponse.json(insights);
     } catch (error) {
