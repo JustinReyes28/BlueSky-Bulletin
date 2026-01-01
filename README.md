@@ -14,7 +14,14 @@ BlueSky is your go-to app for easy-to-understand weather updates and personalize
 - **Privacy First:** We don't store your personal info.
 - **Super Fast:** Smart caching makes everything load quickly.
 
-## 💾 How We Keep Things Speedy
+## ✦ Screenshots
+
+Here are some screenshots of the BlueSky Bulletin application:
+
+<img src="./images/img1.png" alt="Homepage View" width="500"/> <img src="./images/img2.png" alt="Weather Map View" width="500"/>
+<img src="./images/img3.png" alt="AI Recommendations" width="800"/>
+
+## ✦ Tech Stack
 
 BlueSky uses some clever caching tricks to make sure you get info fast:
 
@@ -72,15 +79,6 @@ Check out [Caching.md](Caching.md) for all the techy details.
 
 Now open [http://localhost:3000](http://localhost:3000) in your browser and check it out!
 
-## 📸 Some Sneak Peeks
-
-Here's what BlueSky looks like:
-
-<img src="./images/screenshot1.png" alt="Homepage" width="800"/>
-
-<img src="./images/screenshot2.png" alt="Weather Map" width="800"/>
-
-<img src="./images/screenshot3.png" alt="Recommendations" width="800"/>
 
 ## 🗂️ How It's Organized
 
