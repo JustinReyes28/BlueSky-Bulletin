@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 function generateNonce() {
-    return crypto.randomUUID();
+  return crypto.randomUUID();
 }
 
 export default function RootLayout({
@@ -32,7 +32,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta name="robots" content="index, follow" />
         <script
           nonce={nonce}
           dangerouslySetInnerHTML={{
