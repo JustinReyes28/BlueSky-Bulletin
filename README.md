@@ -147,17 +147,6 @@ npm run build
 npm run start
 ```
 
-## ✦ Roadmap
-
-- [x] Core weather data integration
-- [x] AI-powered insights generation
-- [x] Interactive map visualization
-- [x] Intelligent caching system
-- [ ] User preferences and customization
-- [ ] Weather alerts and notifications
-- [ ] Historical weather analysis
-- [ ] Multi-language support
-
 ## ✦ Contributing
 
 We welcome contributions! Please follow our coding standards and submit pull requests for review.
