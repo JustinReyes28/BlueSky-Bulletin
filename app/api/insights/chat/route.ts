@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Hey, we need some messages to chat about!' }, { status: 400 });
     }
 
-    const ip = req.ip || 'anonymous';
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0] || 'anonymous';
     const ratelimit = await checkRateLimit(ip);
 
     if (!ratelimit.success) {

@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({ error: 'Hmm, those coordinates don\'t look right. Double-check and try again!' }, { status: 400 });
     }
 
-    const ip = req.ip || 'anonymous';
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0] || 'anonymous';
     const ratelimit = await checkRateLimit(ip);
 
     if (!ratelimit.success) {
