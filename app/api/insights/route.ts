@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateWeatherInsights } from '@/lib/ai/weather-insight-agent';
 import { fetchWeather } from '@/lib/weather/open-meteo';
-import { getCachedData, setCachedData, generateInsightKey } from '@/lib/cache/upstash-cache';
+import { getCachedData, setCachedData, generateInsightKey } from '@/lib/cache/memory-cache';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { insightRequestSchema } from '@/lib/validation';
 

@@ -15,9 +15,9 @@ BlueSky Bulletin is an intelligent weather application that combines real-time w
   - **AI Chat Interface:** Ask weather-related questions and get intelligent responses
 
 - **Performance & Privacy:**
-  - **Blazing Fast:** Smart caching with Upstash Redis ensures quick responses
+  - **Blazing Fast:** Lightweight in-memory LRU caching ensures quick responses with zero external cache setup
   - **Privacy-First:** No personal data storage - completely stateless design
-  - **Cost-Efficient:** Optimized API calls with intelligent caching strategies
+  - **Cost-Efficient:** Optimized API calls with TTL-based caching strategies
 
 ## ✦ Screenshots
 
@@ -28,27 +28,27 @@ Here are some screenshots of the BlueSky Bulletin application:
 
 ## ✦ Intelligent Caching System
 
-BlueSky uses a sophisticated caching strategy to maximize performance and minimize costs:
+BlueSky uses a lightweight in-memory LRU cache (`lru-cache`) to improve response times and reduce redundant API calls without requiring an external cache server:
 
 - **Weather Data:** Cached for 30 minutes with ~10km precision coordinate rounding
 - **AI Insights:** Cached for 8 hours to reduce Mistral API calls
-- **Smart Rate Limiting:** 30 requests per minute per IP to prevent abuse
-- **Graceful Fallback:** Automatic fallback to memory cache if Upstash is unavailable
+- **Bounded Memory:** Stores up to 500 entries with automatic least-recently-used eviction
+- **Smart Rate Limiting:** 30 requests per minute per IP via `@upstash/ratelimit` (fails open if Upstash env vars are not configured)
 
 Check out [Caching.md](Caching.md) for all the technical details.
 
 ## ✦ What We're Built With
 
-- **Framework:** [Next.js 14.2.35](https://nextjs.org/) with App Router
-- **UI:** [React 18](https://reactjs.org/) with TypeScript
+- **Framework:** [Next.js](https://nextjs.org/) with App Router
+- **UI:** [React](https://reactjs.org/) with TypeScript
 - **Styling:** [Tailwind CSS 3.4](https://tailwindcss.com/) for rapid, responsive design
 - **Icons:** [Lucide React](https://lucide.dev/) for beautiful, consistent icons
 - **Maps:** [Leaflet.js 1.9](https://leafletjs.com/) with React-Leaflet integration
 - **Weather Data:** [Open-Meteo](https://open-meteo.com/) for reliable, free weather data
 - **AI Engine:** [Mistral AI](https://mistral.ai/) with ministral-3b-2512 model
 - **Validation:** [Zod](https://zod.dev/) for robust data validation
-- **Caching:** [Upstash Redis](https://upstash.com/) for serverless-friendly caching
-- **Rate Limiting:** [@upstash/ratelimit](https://upstash.com/docs/redis/sdks/ratelimit) for production-grade protection
+- **Caching:** [lru-cache](https://github.com/isaacs/node-lru-cache) for lightweight in-memory caching
+- **Rate Limiting:** [@upstash/ratelimit](https://upstash.com/docs/redis/sdks/ratelimit) for optional production-grade protection
 - **Hosting:** [Vercel](https://vercel.com/) for seamless deployment
 
 ## ✦ Getting Started
@@ -57,7 +57,7 @@ Check out [Caching.md](Caching.md) for all the technical details.
 
 - Node.js 18.17 or newer
 - A Mistral API key (get one [here](https://mistral.ai/))
-- An Upstash Redis database (free tier available)
+- An Upstash Redis database (optional, only if you want distributed rate limiting enabled)
 - Vercel account for deployment (optional)
 
 ### Setup
@@ -77,9 +77,11 @@ Check out [Caching.md](Caching.md) for all the technical details.
    Create a `.env.local` file and add:
    ```env
    MISTRAL_API_KEY=your_mistral_key_here
-   KV_REST_API_URL=your_upstash_redis_url
-   KV_REST_API_TOKEN=your_upstash_redis_token
    NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+   # Optional: only needed if you want distributed rate limiting enabled
+   # UPSTASH_REDIS_REST_URL=your_upstash_redis_url
+   # UPSTASH_REDIS_REST_TOKEN=your_upstash_redis_token
    ```
 
 4. **Start the development server:**
@@ -93,7 +95,7 @@ Now open [http://localhost:3000](http://localhost:3000) in your browser and expe
 
 - `/app`: Next.js pages and API routes
   - `page.tsx`: Main dashboard with weather and AI components
-  - `api/weather/route.ts`: Weather data API with caching
+  - `api/weather/route.ts`: Weather data API with in-memory LRU caching
   - `api/insights/route.ts`: AI insights generation endpoint
   - `api/insights/chat/route.ts`: Interactive AI chat interface
 
@@ -105,7 +107,7 @@ Now open [http://localhost:3000](http://localhost:3000) in your browser and expe
 
 - `/lib`: Core application logic
   - `ai/`: AI integration and prompt engineering
-  - `cache/`: Upstash Redis caching implementation
+  - `cache/`: In-memory LRU caching implementation (`memory-cache.ts`)
   - `hooks/`: Custom React hooks for data fetching
   - `weather/`: Weather data processing and utilities
   - `validation/`: Input validation with Zod schemas

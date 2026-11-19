@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { fetchWeather } from '@/lib/weather/open-meteo';
 import { coordinateSchema } from '@/lib/validation';
 import { checkRateLimit } from '@/lib/rate-limit';
-import { getCachedData, setCachedData, generateWeatherKey } from '@/lib/cache/upstash-cache';
+import { getCachedData, setCachedData, generateWeatherKey } from '@/lib/cache/memory-cache';
 
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
